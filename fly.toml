@@ -1,0 +1,24 @@
+# fly.toml — fly.io configuration (only needed if deploying on fly.io)
+# See: https://fly.io/docs/reference/configuration/
+
+app = "conferra-website"
+primary_region = "iad"  # us-east (Washington DC) — change to your nearest region
+
+[build]
+  # Uses the Dockerfile in this repo
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true   # Save cost — stops machine when idle
+  auto_start_machines = true  # Starts back up on first request
+  min_machines_running = 0    # Allow full scale-to-zero
+
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 200
+    soft_limit = 100
+
+[[vm]]
+  size = "shared-cpu-1x"   # Smallest/cheapest VM size
+  memory = "256mb"

@@ -1,0 +1,6 @@
+# Cloudflare Pages redirect rules
+# Redirect www → non-www (add your domain below when ready)
+# https://www.conferra.ai/* https://conferra.ai/:splat 301
+
+# Catch-all: send any unknown path back to index (SPA-style fallback)
+/* /index.html 200

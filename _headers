@@ -1,0 +1,14 @@
+/*
+  # Security headers — applied to every page
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-XSS-Protection: 1; mode=block
+
+  # Cache static assets aggressively (1 year)
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.html
+  # HTML pages — don't cache, always fresh
+  Cache-Control: public, max-age=0, must-revalidate

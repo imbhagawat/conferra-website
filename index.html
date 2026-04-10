@@ -130,7 +130,7 @@
        HERO
     ════════════════════════════════════════════════════════════ */
     .hero {
-      padding: 120px 0 96px;
+      padding: 120px 0 100px;
       background: linear-gradient(160deg, #fff 0%, #f7f3fd 45%, #ede5f8 100%);
       position: relative; overflow: hidden;
     }
@@ -160,34 +160,64 @@
     }
     .hero-trust::before { content: '✓'; color: var(--green); font-weight: 700; }
 
-    /* Logo strip */
-    .logo-strip {
-      margin-top: 72px; padding-top: 48px;
-      border-top: 1px solid rgba(107,63,160,.12);
+    /* ── MARQUEE LOGO STRIP ─────────────────────────────────── */
+    .marquee-section {
+      background: #fff;
+      border-top: 1px solid #E5E7EB;
+      border-bottom: 1px solid #E5E7EB;
+      padding: 28px 0 32px;
+      overflow: hidden;
     }
-    .logo-strip-label {
-      font-size: .75rem; font-weight: 600; letter-spacing: .08em;
-      text-transform: uppercase; color: #9CA3AF; margin-bottom: 28px;
+    .marquee-label {
+      text-align: center;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #9CA3AF;
+      margin-bottom: 22px;
     }
-    .logo-strip-logos {
-      display: flex; align-items: center; gap: 36px 44px; flex-wrap: wrap;
+    .marquee-track {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%);
     }
-    .logo-item {
-      display: flex; align-items: center; justify-content: center;
-      text-decoration: none; color: #374151;
-      opacity: .55; filter: grayscale(100%) contrast(1.1);
-      transition: opacity .25s ease, filter .25s ease;
+    .marquee-rail {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      animation: marquee-scroll 40s linear infinite;
+    }
+    .marquee-rail:hover { animation-play-state: paused; }
+    @keyframes marquee-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-rail { animation: none; }
+    }
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 52px;
+      height: 40px;
       flex-shrink: 0;
+      text-decoration: none;
+      transition: opacity .2s ease;
     }
-    .logo-item:hover { opacity: 1; filter: grayscale(0%); }
-    .logo-item img {
-      height: 30px; width: auto; max-width: 130px;
-      object-fit: contain; display: block;
+    .marquee-item:hover { opacity: .65; }
+    .marquee-item img {
+      height: 28px;
+      width: auto;
+      max-width: 120px;
+      object-fit: contain;
+      display: block;
     }
-    .logo-item svg { height: 24px; width: auto; display: block; }
-    .logo-text-wordmark {
-      font-size: .95rem; font-weight: 800; letter-spacing: -.01em;
-      color: currentColor; white-space: nowrap;
+    .marquee-item svg {
+      height: 22px;
+      width: auto;
+      display: block;
     }
 
     /* ════════════════════════════════════════════════════════════
@@ -582,54 +612,89 @@
       <div class="hero-trust">No commitment required &nbsp;·&nbsp; Up and running in under a day &nbsp;·&nbsp; US SaaS teams</div>
     </div>
 
-    <div class="logo-strip fade-up">
-      <p class="logo-strip-label">Trusted by field marketing teams at fast-growing SaaS companies</p>
-      <div class="logo-strip-logos">
-        <!-- Supper.co – SVG text wordmark -->
-        <a class="logo-item" href="https://supper.co" target="_blank" rel="noopener" aria-label="Supper">
-          <svg viewBox="0 0 110 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <text x="0" y="21" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="800" letter-spacing="-0.5" fill="currentColor">supper</text>
-          </svg>
-        </a>
-        <!-- Kong -->
-        <a class="logo-item" href="https://konghq.com" target="_blank" rel="noopener" aria-label="Kong">
-          <img src="https://assets.prd.mktg.konghq.com/images/2026/03/69c171ef-kong-konnect-logo.svg" alt="Kong" loading="lazy">
-        </a>
-        <!-- SimpliSmart -->
-        <a class="logo-item" href="https://simplismart.ai" target="_blank" rel="noopener" aria-label="SimpliSmart">
-          <img src="https://cdn.prod.website-files.com/688cd7a9d1e409a52d962d73/68916cb7ed02b47bd3b0676f_Logo.png" alt="SimpliSmart" loading="lazy">
-        </a>
-        <!-- Materialize -->
-        <a class="logo-item" href="https://materialize.com" target="_blank" rel="noopener" aria-label="Materialize">
-          <img src="https://materialize.com/__static/019d7380-6695-49fc-af6b-326d6c531327/logos/logomark-purple.svg" alt="Materialize" loading="lazy">
-        </a>
-        <!-- Larridin – SVG text wordmark -->
-        <a class="logo-item" href="https://larridin.com" target="_blank" rel="noopener" aria-label="Larridin">
-          <svg viewBox="0 0 130 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <text x="0" y="21" font-family="system-ui,-apple-system,sans-serif" font-size="20" font-weight="700" letter-spacing="-0.3" fill="currentColor">Larridin</text>
-          </svg>
-        </a>
-        <!-- Cloaked -->
-        <a class="logo-item" href="https://cloaked.id" target="_blank" rel="noopener" aria-label="Cloaked">
-          <img src="https://cdn.prod.website-files.com/63ec0f977f0357126ec38bcd/696691327b6ddbf53f5163a4_Group-1.svg" alt="Cloaked" loading="lazy">
-        </a>
-        <!-- Agent.ai -->
-        <a class="logo-item" href="https://agent.ai" target="_blank" rel="noopener" aria-label="Agent.ai">
-          <img src="https://agent.ai/logo-2025/agent-ai-logo-new-dark.svg" alt="Agent.ai" loading="lazy">
-        </a>
-        <!-- Bolo.ai -->
-        <a class="logo-item" href="https://bolo.ai" target="_blank" rel="noopener" aria-label="Bolo">
-          <img src="https://cdn.prod.website-files.com/691b0ef5e164cc0ecf4f3ba4/691bbe1d7eada9206e933999_47c14fa83290db89338834ef0b9dd27d_Logo.png" alt="Bolo" loading="lazy">
-        </a>
-        <!-- Illumine -->
-        <a class="logo-item" href="https://illumine.app" target="_blank" rel="noopener" aria-label="Illumine">
-          <img src="https://cdn.prod.website-files.com/66d29a238e58012365d58156/66d29dc73d23d8421dab50fa_Navbar%20Brand.svg" alt="Illumine" loading="lazy">
-        </a>
-        <!-- Dremio -->
-        <a class="logo-item" href="https://dremio.com" target="_blank" rel="noopener" aria-label="Dremio">
-          <img src="https://www.dremio.com/wp-content/themes/subsurface/assets/images/dremio_dark.svg" alt="Dremio" loading="lazy">
-        </a>
-      </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     MARQUEE LOGO STRIP
+════════════════════════════════════════════════════════════ -->
+<section class="marquee-section">
+  <p class="marquee-label">Trusted by field marketing teams at fast-growing SaaS companies</p>
+  <div class="marquee-track">
+    <div class="marquee-rail">
+
+      <!-- ── Set 1 (visible to screen readers) ── -->
+      <a class="marquee-item" href="https://supper.co" target="_blank" rel="noopener" aria-label="Supper">
+        <svg viewBox="0 0 118 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <text x="0" y="21" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="22" font-weight="800" letter-spacing="-0.6" fill="#111827">supper</text>
+        </svg>
+      </a>
+      <a class="marquee-item" href="https://konghq.com" target="_blank" rel="noopener" aria-label="Kong">
+        <img src="https://assets.prd.mktg.konghq.com/images/2026/03/69c171ef-kong-konnect-logo.svg" alt="Kong" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://simplismart.ai" target="_blank" rel="noopener" aria-label="SimpliSmart">
+        <img src="https://cdn.prod.website-files.com/688cd7a9d1e409a52d962d73/68916cb7ed02b47bd3b0676f_Logo.png" alt="SimpliSmart" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://materialize.com" target="_blank" rel="noopener" aria-label="Materialize">
+        <img src="https://materialize.com/__static/019d7380-6695-49fc-af6b-326d6c531327/logos/logomark-purple.svg" alt="Materialize" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://larridin.com" target="_blank" rel="noopener" aria-label="Larridin">
+        <svg viewBox="0 0 114 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <text x="0" y="21" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="20" font-weight="700" letter-spacing="-0.3" fill="#111827">Larridin</text>
+        </svg>
+      </a>
+      <a class="marquee-item" href="https://cloaked.id" target="_blank" rel="noopener" aria-label="Cloaked">
+        <img src="https://cdn.prod.website-files.com/63ec0f977f0357126ec38bcd/696691327b6ddbf53f5163a4_Group-1.svg" alt="Cloaked" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://agent.ai" target="_blank" rel="noopener" aria-label="Agent.ai">
+        <img src="https://agent.ai/logo-2025/agent-ai-logo-new-dark.svg" alt="Agent.ai" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://bolo.ai" target="_blank" rel="noopener" aria-label="Bolo">
+        <img src="https://cdn.prod.website-files.com/691b0ef5e164cc0ecf4f3ba4/691bbe1d7eada9206e933999_47c14fa83290db89338834ef0b9dd27d_Logo.png" alt="Bolo" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://illumine.app" target="_blank" rel="noopener" aria-label="Illumine">
+        <img src="https://cdn.prod.website-files.com/66d29a238e58012365d58156/66d29dc73d23d8421dab50fa_Navbar%20Brand.svg" alt="Illumine" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://dremio.com" target="_blank" rel="noopener" aria-label="Dremio">
+        <img src="https://www.dremio.com/wp-content/themes/subsurface/assets/images/dremio_dark.svg" alt="Dremio" loading="lazy">
+      </a>
+
+      <!-- ── Set 2 (aria-hidden duplicate for seamless loop) ── -->
+      <a class="marquee-item" href="https://supper.co" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1">
+        <svg viewBox="0 0 118 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <text x="0" y="21" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="22" font-weight="800" letter-spacing="-0.6" fill="#111827">supper</text>
+        </svg>
+      </a>
+      <a class="marquee-item" href="https://konghq.com" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1">
+        <img src="https://assets.prd.mktg.konghq.com/images/2026/03/69c171ef-kong-konnect-logo.svg" alt="" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://simplismart.ai" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1">
+        <img src="https://cdn.prod.website-files.com/688cd7a9d1e409a52d962d73/68916cb7ed02b47bd3b0676f_Logo.png" alt="" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://materialize.com" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1">
+        <img src="https://materialize.com/__static/019d7380-6695-49fc-af6b-326d6c531327/logos/logomark-purple.svg" alt="" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://larridin.com" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1">
+        <svg viewBox="0 0 114 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <text x="0" y="21" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="20" font-weight="700" letter-spacing="-0.3" fill="#111827">Larridin</text>
+        </svg>
+      </a>
+      <a class="marquee-item" href="https://cloaked.id" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1">
+        <img src="https://cdn.prod.website-files.com/63ec0f977f0357126ec38bcd/696691327b6ddbf53f5163a4_Group-1.svg" alt="" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://agent.ai" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1">
+        <img src="https://agent.ai/logo-2025/agent-ai-logo-new-dark.svg" alt="" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://bolo.ai" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1">
+        <img src="https://cdn.prod.website-files.com/691b0ef5e164cc0ecf4f3ba4/691bbe1d7eada9206e933999_47c14fa83290db89338834ef0b9dd27d_Logo.png" alt="" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://illumine.app" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1">
+        <img src="https://cdn.prod.website-files.com/66d29a238e58012365d58156/66d29dc73d23d8421dab50fa_Navbar%20Brand.svg" alt="" loading="lazy">
+      </a>
+      <a class="marquee-item" href="https://dremio.com" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1">
+        <img src="https://www.dremio.com/wp-content/themes/subsurface/assets/images/dremio_dark.svg" alt="" loading="lazy">
+      </a>
+
     </div>
   </div>
 </section>

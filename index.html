@@ -560,6 +560,91 @@
       .footer-bottom { flex-direction: column; text-align: center; }
       .hero-ctas { flex-direction: column; align-items: flex-start; }
     }
+
+    /* ── DEMO MODAL ──────────────────────────────────────────── */
+    .demo-modal-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(17,24,39,.55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px 16px;
+      opacity: 0; transition: opacity .2s ease;
+    }
+    .demo-modal-overlay:not([hidden]) { opacity: 1; }
+    .demo-modal-overlay[hidden] { display: none; }
+    .demo-modal-card {
+      position: relative;
+      background: #fff; border-radius: 20px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.18);
+      width: 100%; max-width: 560px;
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
+      padding: 44px 44px 40px;
+      transform: translateY(16px); transition: transform .22s ease;
+    }
+    .demo-modal-overlay:not([hidden]) .demo-modal-card { transform: translateY(0); }
+    .demo-modal-close {
+      position: absolute; top: 18px; right: 18px;
+      background: #F3F4F6; border: none; border-radius: 50%;
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .15s;
+    }
+    .demo-modal-close:hover { background: #E5E7EB; }
+    .demo-modal-badge {
+      display: inline-block;
+      background: #F0FDF4; color: #166534;
+      font-size: .72rem; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; border-radius: 100px;
+      padding: 4px 12px; margin-bottom: 14px;
+    }
+    .demo-modal-title { font-size: 1.55rem; font-weight: 800; color: #111827; margin: 0 0 8px; line-height: 1.2; }
+    .demo-modal-subtitle { font-size: .93rem; color: #6B7280; margin: 0 0 28px; }
+    .demo-form { display: flex; flex-direction: column; gap: 18px; }
+    .demo-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .demo-field { display: flex; flex-direction: column; gap: 6px; }
+    .demo-field label { font-size: .8rem; font-weight: 600; color: #374151; }
+    .demo-field label span[aria-hidden] { color: #EF4444; }
+    .demo-optional { font-weight: 400; color: #9CA3AF; }
+    .demo-field input,
+    .demo-field select,
+    .demo-field textarea {
+      border: 1.5px solid #E5E7EB; border-radius: 10px;
+      padding: 10px 14px; font-size: .9rem; color: #111827;
+      background: #fff; outline: none;
+      transition: border-color .15s, box-shadow .15s;
+      font-family: inherit; width: 100%; box-sizing: border-box;
+    }
+    .demo-field input::placeholder,
+    .demo-field textarea::placeholder { color: #9CA3AF; }
+    .demo-field input:focus,
+    .demo-field select:focus,
+    .demo-field textarea:focus {
+      border-color: #6366F1;
+      box-shadow: 0 0 0 3px rgba(99,102,241,.12);
+    }
+    .demo-field input.invalid,
+    .demo-field select.invalid,
+    .demo-field textarea.invalid {
+      border-color: #EF4444;
+      box-shadow: 0 0 0 3px rgba(239,68,68,.1);
+    }
+    .demo-field textarea { resize: vertical; min-height: 80px; }
+    .demo-field select { appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
+    .demo-submit-btn { width: 100%; padding: 14px; font-size: 1rem; font-weight: 700; margin-top: 4px; }
+    .demo-form-note { text-align: center; font-size: .75rem; color: #9CA3AF; margin: 0; }
+    /* success */
+    #demo-success-state { text-align: center; padding: 24px 0 8px; }
+    .demo-success-icon { margin-bottom: 20px; }
+    .demo-success-title { font-size: 1.6rem; font-weight: 800; color: #111827; margin: 0 0 12px; }
+    .demo-success-body { font-size: .95rem; color: #6B7280; margin: 0 0 28px; line-height: 1.6; }
+    @media (max-width: 600px) {
+      .demo-modal-card { padding: 36px 22px 28px; }
+      .demo-form-row { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -581,7 +666,7 @@
     </ul>
     <div class="nav-ctas">
       <a href="#" class="nav-signin">Sign In</a>
-      <a href="#demo" class="btn btn-primary nav-demo">Book a Demo</a>
+      <a href="#" class="btn btn-primary nav-demo" onclick="openDemoModal(event)">Book a Demo</a>
     </div>
   </div>
 </nav>
@@ -606,7 +691,7 @@
         marketing motion of a much larger org.
       </p>
       <div class="hero-ctas">
-        <a href="#demo" class="btn btn-primary btn-lg">Book a Demo &nbsp;→</a>
+        <a href="#" class="btn btn-primary btn-lg" onclick="openDemoModal(event)">Book a Demo &nbsp;→</a>
         <a href="#how" class="btn btn-secondary btn-lg">See How It Works</a>
       </div>
       <div class="hero-trust">No commitment required &nbsp;·&nbsp; Up and running in under a day &nbsp;·&nbsp; US SaaS teams</div>
@@ -1162,14 +1247,92 @@
       </h2>
       <p>Book a 30-minute demo and see how Conferra helps your field marketing team do more — with the team you already have.</p>
       <div class="final-cta-btns">
-        <a href="#" class="btn btn-white btn-lg">Book a Demo &nbsp;→</a>
-        <a href="#" class="btn btn-outline-white btn-lg">Talk to Our Team</a>
+        <a href="#" class="btn btn-white btn-lg" onclick="openDemoModal(event)">Book a Demo &nbsp;→</a>
+        <a href="#" class="btn btn-outline-white btn-lg" onclick="openDemoModal(event)">Talk to Our Team</a>
       </div>
       <div class="final-cta-note">No commitment required &nbsp;·&nbsp; US-based SaaS companies &nbsp;·&nbsp; Series A to pre-IPO</div>
     </div>
   </div>
 </section>
 
+
+<!-- ════════════════════════════════════════════════════════════
+     BOOK A DEMO MODAL
+════════════════════════════════════════════════════════════ -->
+<div id="demo-modal" class="demo-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="demo-modal-title" hidden>
+  <div class="demo-modal-card">
+    <button class="demo-modal-close" onclick="closeDemoModal()" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 5L5 15M5 5l10 10" stroke="#6B7280" stroke-width="1.75" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- Form state -->
+    <div id="demo-form-state">
+      <div class="demo-modal-header">
+        <div class="demo-modal-badge">30-minute demo</div>
+        <h2 id="demo-modal-title" class="demo-modal-title">See Conferra in action</h2>
+        <p class="demo-modal-subtitle">Tell us a bit about yourself and we'll be in touch within one business day.</p>
+      </div>
+      <form id="demo-form" class="demo-form" novalidate>
+        <div class="demo-form-row">
+          <div class="demo-field">
+            <label for="df-fname">First name <span aria-hidden="true">*</span></label>
+            <input type="text" id="df-fname" name="first_name" placeholder="Ada" required autocomplete="given-name">
+          </div>
+          <div class="demo-field">
+            <label for="df-lname">Last name <span aria-hidden="true">*</span></label>
+            <input type="text" id="df-lname" name="last_name" placeholder="Lovelace" required autocomplete="family-name">
+          </div>
+        </div>
+        <div class="demo-field">
+          <label for="df-email">Work email <span aria-hidden="true">*</span></label>
+          <input type="email" id="df-email" name="email" placeholder="ada@company.com" required autocomplete="email">
+        </div>
+        <div class="demo-field">
+          <label for="df-company">Company <span aria-hidden="true">*</span></label>
+          <input type="text" id="df-company" name="company" placeholder="Acme Corp" required autocomplete="organization">
+        </div>
+        <div class="demo-form-row">
+          <div class="demo-field">
+            <label for="df-title">Job title <span aria-hidden="true">*</span></label>
+            <input type="text" id="df-title" name="job_title" placeholder="Head of Field Marketing" required autocomplete="organization-title">
+          </div>
+          <div class="demo-field">
+            <label for="df-size">Company size <span aria-hidden="true">*</span></label>
+            <select id="df-size" name="company_size" required>
+              <option value="" disabled selected>Select…</option>
+              <option value="1-50">1 – 50</option>
+              <option value="51-200">51 – 200</option>
+              <option value="201-500">201 – 500</option>
+              <option value="501-1000">501 – 1,000</option>
+              <option value="1001+">1,001+</option>
+            </select>
+          </div>
+        </div>
+        <div class="demo-field">
+          <label for="df-message">Anything you'd like us to know? <span class="demo-optional">(optional)</span></label>
+          <textarea id="df-message" name="message" rows="3" placeholder="E.g. we run ~20 events a year and struggle with post-event follow-up…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary demo-submit-btn">Request my demo &nbsp;→</button>
+        <p class="demo-form-note">No commitment required · US-based SaaS companies · Series A to pre-IPO</p>
+      </form>
+    </div>
+
+    <!-- Success state -->
+    <div id="demo-success-state" hidden>
+      <div class="demo-success-icon">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="24" fill="#ECFDF5"/>
+          <path d="M14 24l7 7 13-14" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 class="demo-success-title">You're on the list!</h2>
+      <p class="demo-success-body">Thanks for reaching out. Someone from the Conferra team will email you within one business day to schedule your 30-minute demo.</p>
+      <button class="btn btn-primary" onclick="closeDemoModal()">Back to site</button>
+    </div>
+  </div>
+</div>
 
 <!-- ════════════════════════════════════════════════════════════
      FOOTER
@@ -1250,6 +1413,59 @@
     nav.style.boxShadow = window.scrollY > 20
       ? '0 4px 24px rgba(0,0,0,.08)'
       : 'none';
+  });
+
+  // ─── DEMO MODAL ───────────────────────────────────────────────
+  const demoModal = document.getElementById('demo-modal');
+  const demoForm  = document.getElementById('demo-form');
+
+  function openDemoModal(e) {
+    if (e) e.preventDefault();
+    // reset to form state each time
+    document.getElementById('demo-form-state').hidden   = false;
+    document.getElementById('demo-success-state').hidden = true;
+    demoForm.reset();
+    demoForm.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
+    demoModal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    // focus first field
+    setTimeout(() => document.getElementById('df-fname').focus(), 50);
+  }
+
+  function closeDemoModal() {
+    demoModal.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  // Close on overlay click
+  demoModal.addEventListener('click', (e) => {
+    if (e.target === demoModal) closeDemoModal();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !demoModal.hidden) closeDemoModal();
+  });
+
+  // Form submit
+  demoForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let valid = true;
+    demoForm.querySelectorAll('[required]').forEach(field => {
+      field.classList.remove('invalid');
+      const isEmpty = field.tagName === 'SELECT'
+        ? !field.value
+        : !field.value.trim();
+      const isEmail = field.type === 'email' && field.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value);
+      if (isEmpty || isEmail) {
+        field.classList.add('invalid');
+        valid = false;
+      }
+    });
+    if (!valid) return;
+    // Show success
+    document.getElementById('demo-form-state').hidden   = true;
+    document.getElementById('demo-success-state').hidden = false;
   });
 </script>
 

@@ -636,6 +636,7 @@
       background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
     .demo-submit-btn { width: 100%; padding: 14px; font-size: 1rem; font-weight: 700; margin-top: 4px; }
     .demo-form-note { text-align: center; font-size: .75rem; color: #9CA3AF; margin: 0; }
+    .demo-field-hint { font-size: .78rem; color: #EF4444; margin-top: 2px; }
     /* success */
     #demo-success-state { text-align: center; padding: 24px 0 8px; }
     .demo-success-icon { margin-bottom: 20px; }
@@ -1275,44 +1276,21 @@
         <p class="demo-modal-subtitle">Tell us a bit about yourself and we'll be in touch within one business day.</p>
       </div>
       <form id="demo-form" class="demo-form" novalidate>
-        <div class="demo-form-row">
-          <div class="demo-field">
-            <label for="df-fname">First name <span aria-hidden="true">*</span></label>
-            <input type="text" id="df-fname" name="first_name" placeholder="Ada" required autocomplete="given-name">
-          </div>
-          <div class="demo-field">
-            <label for="df-lname">Last name <span aria-hidden="true">*</span></label>
-            <input type="text" id="df-lname" name="last_name" placeholder="Lovelace" required autocomplete="family-name">
-          </div>
+        <input type="hidden" name="access_key" value="1fac7ff2-310b-47aa-9a40-c36810d26776">
+        <input type="hidden" name="subject" value="New demo request — Conferra">
+        <input type="hidden" name="from_name" value="Conferra Website">
+        <div class="demo-field">
+          <label for="df-name">Your name <span aria-hidden="true">*</span></label>
+          <input type="text" id="df-name" name="name" placeholder="Ada Lovelace" required autocomplete="name">
         </div>
         <div class="demo-field">
           <label for="df-email">Work email <span aria-hidden="true">*</span></label>
           <input type="email" id="df-email" name="email" placeholder="ada@company.com" required autocomplete="email">
+          <span class="demo-field-hint" id="df-email-hint" hidden>Please use your work email address.</span>
         </div>
         <div class="demo-field">
-          <label for="df-company">Company <span aria-hidden="true">*</span></label>
+          <label for="df-company">Company name <span aria-hidden="true">*</span></label>
           <input type="text" id="df-company" name="company" placeholder="Acme Corp" required autocomplete="organization">
-        </div>
-        <div class="demo-form-row">
-          <div class="demo-field">
-            <label for="df-title">Job title <span aria-hidden="true">*</span></label>
-            <input type="text" id="df-title" name="job_title" placeholder="Head of Field Marketing" required autocomplete="organization-title">
-          </div>
-          <div class="demo-field">
-            <label for="df-size">Company size <span aria-hidden="true">*</span></label>
-            <select id="df-size" name="company_size" required>
-              <option value="" disabled selected>Select…</option>
-              <option value="1-50">1 – 50</option>
-              <option value="51-200">51 – 200</option>
-              <option value="201-500">201 – 500</option>
-              <option value="501-1000">501 – 1,000</option>
-              <option value="1001+">1,001+</option>
-            </select>
-          </div>
-        </div>
-        <div class="demo-field">
-          <label for="df-message">Anything you'd like us to know? <span class="demo-optional">(optional)</span></label>
-          <textarea id="df-message" name="message" rows="3" placeholder="E.g. we run ~20 events a year and struggle with post-event follow-up…"></textarea>
         </div>
         <button type="submit" class="btn btn-primary demo-submit-btn">Request my demo &nbsp;→</button>
         <p class="demo-form-note">No commitment required · US-based SaaS companies · Series A to pre-IPO</p>
@@ -1419,17 +1397,29 @@
   const demoModal = document.getElementById('demo-modal');
   const demoForm  = document.getElementById('demo-form');
 
+  const PERSONAL_DOMAINS = new Set([
+    'gmail.com','yahoo.com','hotmail.com','outlook.com','icloud.com',
+    'aol.com','protonmail.com','mail.com','zoho.com','yandex.com',
+    'live.com','msn.com','me.com','googlemail.com','yahoo.co.uk',
+    'yahoo.co.in','hotmail.co.uk','hotmail.fr','yahoo.fr','gmx.com',
+    'gmx.de','web.de','libero.it','wanadoo.fr','orange.fr'
+  ]);
+
+  function isPersonalEmail(email) {
+    const domain = email.split('@')[1]?.toLowerCase();
+    return domain ? PERSONAL_DOMAINS.has(domain) : false;
+  }
+
   function openDemoModal(e) {
     if (e) e.preventDefault();
-    // reset to form state each time
-    document.getElementById('demo-form-state').hidden   = false;
+    document.getElementById('demo-form-state').hidden    = false;
     document.getElementById('demo-success-state').hidden = true;
     demoForm.reset();
     demoForm.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
+    document.getElementById('df-email-hint').hidden = true;
     demoModal.hidden = false;
     document.body.style.overflow = 'hidden';
-    // focus first field
-    setTimeout(() => document.getElementById('df-fname').focus(), 50);
+    setTimeout(() => document.getElementById('df-name').focus(), 50);
   }
 
   function closeDemoModal() {
@@ -1437,35 +1427,68 @@
     document.body.style.overflow = '';
   }
 
-  // Close on overlay click
   demoModal.addEventListener('click', (e) => {
     if (e.target === demoModal) closeDemoModal();
   });
 
-  // Close on Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !demoModal.hidden) closeDemoModal();
   });
 
-  // Form submit
-  demoForm.addEventListener('submit', (e) => {
+  demoForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     let valid = true;
+
+    // Basic required field check
     demoForm.querySelectorAll('[required]').forEach(field => {
       field.classList.remove('invalid');
-      const isEmpty = field.tagName === 'SELECT'
-        ? !field.value
-        : !field.value.trim();
-      const isEmail = field.type === 'email' && field.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value);
-      if (isEmpty || isEmail) {
+      if (!field.value.trim()) {
         field.classList.add('invalid');
         valid = false;
       }
     });
+
+    // Email format check
+    const emailField = document.getElementById('df-email');
+    const emailHint  = document.getElementById('df-email-hint');
+    emailHint.hidden = true;
+    if (emailField.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField.value)) {
+      emailField.classList.add('invalid');
+      emailHint.textContent = 'Please enter a valid email address.';
+      emailHint.hidden = false;
+      valid = false;
+    } else if (emailField.value && isPersonalEmail(emailField.value)) {
+      emailField.classList.add('invalid');
+      emailHint.textContent = 'Please use your work email address.';
+      emailHint.hidden = false;
+      valid = false;
+    }
+
     if (!valid) return;
-    // Show success
-    document.getElementById('demo-form-state').hidden   = true;
-    document.getElementById('demo-success-state').hidden = false;
+
+    // Submit to Web3Forms
+    const submitBtn = demoForm.querySelector('.demo-submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    try {
+      const data = new FormData(demoForm);
+      const res  = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: data
+      });
+      const json = await res.json();
+      if (json.success) {
+        document.getElementById('demo-form-state').hidden    = true;
+        document.getElementById('demo-success-state').hidden = false;
+      } else {
+        throw new Error(json.message || 'Submission failed');
+      }
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Request my demo &nbsp;→';
+      alert('Something went wrong — please try again or email us directly at bhagawat@conferra.ai');
+    }
   });
 </script>
 

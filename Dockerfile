@@ -8,7 +8,7 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy site files (all top-level .html pages)
-COPY index.html owned-events.html case-studies.html /usr/share/nginx/html/
+COPY index.html owned-events.html case-studies.html ooh.html /usr/share/nginx/html/
 
 # Optional: copy any future assets (images, fonts, etc.)
 # COPY assets/ /usr/share/nginx/html/assets/

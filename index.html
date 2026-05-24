@@ -133,10 +133,11 @@
     }
     .btn-primary:hover { background: var(--accent-ink); }
     .btn-secondary {
-      background: transparent; color: var(--ink);
-      border: 1px solid var(--ink);
+      background: var(--accent-soft); color: var(--accent-ink);
+      border: none;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.04);
     }
-    .btn-secondary:hover { background: var(--ink); color: var(--bg); }
+    .btn-secondary:hover { background: #E2D6F2; color: var(--accent-ink); }
     .btn-ghost {
       background: transparent; color: var(--ink-soft);
       padding: 14px 0;
@@ -243,13 +244,106 @@
     .cal-title { color: var(--ink); font-weight: 500; }
     .cal-tag {
       font-size: 0.7rem; font-weight: 600;
-      padding: 3px 8px; border-radius: 4px;
+      padding: 4px 10px; border-radius: 4px;
       letter-spacing: 0.02em;
+      display: inline-block;
+      min-width: 88px;
+      text-align: center;
     }
     .cal-tag.dinner   { background: #FDF4E6; color: #8B5E1E; }
     .cal-tag.conf     { background: var(--accent-soft); color: var(--accent-ink); }
     .cal-tag.ooh      { background: #E8F0E6; color: #3C6A35; }
     .cal-tag.qbr      { background: #1A1A1A; color: var(--bg); }
+
+    /* ─────────────────────────────────────────────────────────────
+       LOGO MARQUEE
+    ───────────────────────────────────────────────────────────── */
+    .logos {
+      padding: 64px 0 80px;
+      background: var(--bg);
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+      overflow: hidden;
+    }
+    .logos-header {
+      max-width: var(--maxw);
+      margin: 0 auto 36px;
+      padding: 0 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .logos-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      font-weight: 600;
+    }
+    .logos-meta {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+    .marquee {
+      position: relative;
+      overflow: hidden;
+      mask-image: linear-gradient(90deg, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%);
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%);
+    }
+    .marquee-row {
+      display: flex;
+      gap: 14px;
+      width: max-content;
+      padding: 7px 0;
+    }
+    .marquee-row.row-1 { animation: marqueeLeft 60s linear infinite; }
+    .marquee-row.row-2 { animation: marqueeRight 70s linear infinite; }
+    .marquee:hover .marquee-row { animation-play-state: paused; }
+    @keyframes marqueeLeft {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @keyframes marqueeRight {
+      from { transform: translateX(-50%); }
+      to { transform: translateX(0); }
+    }
+    .logo-card {
+      flex: 0 0 200px;
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: 10px;
+      padding: 18px 14px 12px;
+      text-align: center;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .logo-card:hover {
+      border-color: var(--border);
+      transform: translateY(-2px);
+    }
+    .logo-name {
+      font-size: 1.18rem;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+    .logo-tag {
+      font-size: 0.66rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      font-weight: 500;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-row { animation: none; }
+    }
+    @media (max-width: 720px) {
+      .logos { padding: 48px 0 56px; }
+      .logo-card { flex: 0 0 160px; padding: 14px 10px 10px; }
+      .logo-name { font-size: 1rem; }
+    }
 
     /* ─────────────────────────────────────────────────────────────
        MIRROR · The Week
@@ -808,8 +902,8 @@
       </a>
       <ul class="nav-links">
         <li><a href="#how-it-works">How it works</a></li>
-        <li><a href="#ooh">OOH plan</a></li>
-        <li><a href="#pilot">Pilot</a></li>
+        <li><a href="/owned-events">Owned Events</a></li>
+        <li><a href="/case-studies">Case Studies</a></li>
         <li><a href="#cmo">For CMOs</a></li>
       </ul>
       <a href="#ooh" class="nav-cta">Get a free OOH plan</a>
@@ -832,7 +926,7 @@
           </p>
           <div class="hero-ctas">
             <a href="#ooh" class="btn btn-primary btn-arrow">Get a free OOH plan for your next conference</a>
-            <a href="#pilot" class="btn btn-ghost btn-arrow">Run one event with us</a>
+            <a href="/owned-events" class="btn btn-secondary btn-arrow">Run one event with us</a>
           </div>
           <div class="hero-trust">No contract. Easy pilot. 2 business days.</div>
         </div>
@@ -841,46 +935,96 @@
         <div class="calendar" aria-hidden="true">
           <div class="calendar-header">
             <span class="calendar-title">Your year</span>
-            <span class="calendar-quarter">Q3 · 2026</span>
+            <span class="calendar-quarter">Q4 · 2026</span>
           </div>
           <div class="calendar-events">
             <div class="cal-event">
-              <span class="cal-date">JUL 23</span>
+              <span class="cal-date">OCT 8</span>
               <span class="cal-title">Boston CISO dinner · 12 RSVPs</span>
               <span class="cal-tag dinner">Dinner</span>
             </div>
             <div class="cal-event">
-              <span class="cal-date">AUG 4–7</span>
-              <span class="cal-title">Black Hat · operator on-site</span>
+              <span class="cal-date">OCT 18–21</span>
+              <span class="cal-title">Money 20/20 · operator on-site</span>
               <span class="cal-tag conf">Conference</span>
             </div>
             <div class="cal-event">
-              <span class="cal-date">AUG 4–7</span>
-              <span class="cal-title">Vegas Strip · 6 placements live</span>
-              <span class="cal-tag ooh">OOH</span>
-            </div>
-            <div class="cal-event">
-              <span class="cal-date">AUG 14</span>
+              <span class="cal-date">NOV 6</span>
               <span class="cal-title">NYC dinner · CISO segment</span>
               <span class="cal-tag dinner">Dinner</span>
             </div>
             <div class="cal-event">
-              <span class="cal-date">AUG 27</span>
+              <span class="cal-date">NOV 12</span>
               <span class="cal-title">Austin roadshow · 4 accounts</span>
               <span class="cal-tag conf">Activation</span>
             </div>
             <div class="cal-event">
-              <span class="cal-date">SEP 8–10</span>
-              <span class="cal-title">Money 20/20 · booth + dinner</span>
+              <span class="cal-date">NOV 17–20</span>
+              <span class="cal-title">Microsoft Ignite · booth + dinner</span>
               <span class="cal-tag conf">Conference</span>
             </div>
             <div class="cal-event">
-              <span class="cal-date">SEP 22</span>
+              <span class="cal-date">NOV 30–DEC 4</span>
+              <span class="cal-title">AWS re:Invent (Vegas) · 6 OOH placements</span>
+              <span class="cal-tag ooh">OOH</span>
+            </div>
+            <div class="cal-event">
+              <span class="cal-date">DEC 18</span>
               <span class="cal-title">QBR · $4.2M attributed</span>
               <span class="cal-tag qbr">QBR</span>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LOGO MARQUEE
+  ═══════════════════════════════════════════════════════════ -->
+  <section class="logos" aria-label="Clients we work with">
+    <div class="logos-header">
+      <span class="logos-eyebrow">The teams running events with Conferra</span>
+      <span class="logos-meta">16 and counting · 2026</span>
+    </div>
+    <div class="marquee">
+      <div class="marquee-row row-1">
+        <div class="logo-card"><div class="logo-name">Kong</div><div class="logo-tag">AI &amp; API</div></div>
+        <div class="logo-card"><div class="logo-name">MoEngage</div><div class="logo-tag">Customer Success</div></div>
+        <div class="logo-card"><div class="logo-name">Simular.ai</div><div class="logo-tag">AI / Agent</div></div>
+        <div class="logo-card"><div class="logo-name">Simplismart</div><div class="logo-tag">AI Inference</div></div>
+        <div class="logo-card"><div class="logo-name">Larridin</div><div class="logo-tag">AI / Agent</div></div>
+        <div class="logo-card"><div class="logo-name">Rocket</div><div class="logo-tag">Vibe Coding</div></div>
+        <div class="logo-card"><div class="logo-name">Revsure</div><div class="logo-tag">MarTech</div></div>
+        <div class="logo-card"><div class="logo-name">Supper</div><div class="logo-tag">Data / AI</div></div>
+        <!-- duplicate for seamless loop -->
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Kong</div><div class="logo-tag">AI &amp; API</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">MoEngage</div><div class="logo-tag">Customer Success</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Simular.ai</div><div class="logo-tag">AI / Agent</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Simplismart</div><div class="logo-tag">AI Inference</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Larridin</div><div class="logo-tag">AI / Agent</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Rocket</div><div class="logo-tag">Vibe Coding</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Revsure</div><div class="logo-tag">MarTech</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Supper</div><div class="logo-tag">Data / AI</div></div>
+      </div>
+      <div class="marquee-row row-2">
+        <div class="logo-card"><div class="logo-name">Cloaked</div><div class="logo-tag">Security</div></div>
+        <div class="logo-card"><div class="logo-name">Bolo.ai</div><div class="logo-tag">Enterprise AI</div></div>
+        <div class="logo-card"><div class="logo-name">Lyzr.ai</div><div class="logo-tag">AI / Agent</div></div>
+        <div class="logo-card"><div class="logo-name">Materialize</div><div class="logo-tag">Data / AI</div></div>
+        <div class="logo-card"><div class="logo-name">Dremio</div><div class="logo-tag">Data / AI</div></div>
+        <div class="logo-card"><div class="logo-name">Agent.ai</div><div class="logo-tag">Vibe Coding</div></div>
+        <div class="logo-card"><div class="logo-name">Storylane</div><div class="logo-tag">GTM</div></div>
+        <div class="logo-card"><div class="logo-name">Auctor</div><div class="logo-tag">Enterprise AI</div></div>
+        <!-- duplicate for seamless loop -->
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Cloaked</div><div class="logo-tag">Security</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Bolo.ai</div><div class="logo-tag">Enterprise AI</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Lyzr.ai</div><div class="logo-tag">AI / Agent</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Materialize</div><div class="logo-tag">Data / AI</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Dremio</div><div class="logo-tag">Data / AI</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Agent.ai</div><div class="logo-tag">Vibe Coding</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Storylane</div><div class="logo-tag">GTM</div></div>
+        <div class="logo-card" aria-hidden="true"><div class="logo-name">Auctor</div><div class="logo-tag">Enterprise AI</div></div>
       </div>
     </div>
   </section>
@@ -963,8 +1107,7 @@
         <div class="mech-card reveal">
           <div class="mech-step">01 · Plan</div>
           <h3>We plan how to show up.</h3>
-          <p>We build your events calendar with you. The conferences worth showing up at. The dinner series that warms up cold accounts. The OOH placements that wrap the shows your prospects fly to.</p>
-          <p>Pulled from your ICP, your pipeline, and what your competitors are sponsoring this quarter.</p>
+          <p>We build your events calendar with you. Around your ICP, pipeline, &amp; competitors. The conferences worth showing up at. The dinner series that warms up cold accounts. The OOH placements for brand building.</p>
         </div>
         <div class="mech-card reveal">
           <div class="mech-step">02 · Show Up</div>
@@ -989,13 +1132,13 @@
     <div class="wrap">
       <div class="ooh-grid">
         <div class="reveal">
-          <h2>Events, finally a growth channel.</h2>
+          <h2>The future of Events-led-Growth.</h2>
           <div class="ooh-sub">AI agents do the heavy lift. Humans make the calls.</div>
           <p class="ooh-body">
-            Most B2B companies run events on hope. Pick a conference. Send invites. Write a post-mortem. Try again next year.
+            Most B2B companies run events on hope. Pick a conference. Set-up booth. Maybe host a side dinner among 72 others. Try again next year.
           </p>
           <p class="ooh-body" style="margin-top: 14px;">
-            Conferra runs them the way marketing's best channels get run, with attribution attached. AI agents source venues, draft invites, chase RSVPs, and tie everything back to your CRM. Operators handle the calls software can't. Who sits next to whom. Which OOH placement is worth the spend. When to walk away from a sponsorship.
+            Conferra runs them the way marketing's best channels get run, with attribution attached. Our AI agents source venues, draft invites, chase RSVPs, and tie everything back to your CRM. Operators handle the calls software can't. Who sits next to whom. Which OOH placement is worth the spend. When to walk away from a sponsorship.
           </p>
           <p class="ooh-body" style="margin-top: 14px;">
             You stop running events. You start compounding them.
@@ -1071,7 +1214,7 @@
           <p>
             Outcome-priced. We agree the success criteria up front.
           </p>
-          <div class="pilot-meta">30 to 60 days, kickoff to debrief.</div>
+          <div class="pilot-meta">4 weeks, kickoff to results.</div>
         </div>
 
         <div class="pilot-card reveal">
@@ -1080,7 +1223,7 @@
             <li>An operator embedded on your team</li>
             <li>The full Conferra platform</li>
             <li>Pipeline attribution wired into your CRM</li>
-            <li>A one-page playbook from the debrief, yours to keep whether you continue or not</li>
+            <li>A one-page event playbook, yours to keep whether you continue or not</li>
           </ul>
           <a href="mailto:bhagawat@conferra.ai?subject=Pilot inquiry" class="btn btn-primary btn-arrow pilot-cta">Run one event with us</a>
         </div>
@@ -1130,7 +1273,14 @@
               <td class="confera"><span class="check">✓</span></td>
             </tr>
             <tr>
-              <td>Outcome-priced, fees at risk</td>
+              <td>Forward deployed event operator</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td class="confera"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Outcome-priced</td>
               <td>—</td>
               <td>—</td>
               <td>—</td>
@@ -1161,9 +1311,9 @@
       </div>
 
       <div class="cmo-ctas reveal">
-        <a href="#pilot" class="btn btn-primary btn-arrow">Run one event with us</a>
+        <a href="/owned-events" class="btn btn-primary btn-arrow">Run one event with us</a>
         <a href="#ooh" class="btn btn-secondary btn-arrow">Get a free OOH plan</a>
-        <a href="mailto:bhagawat@conferra.ai?subject=Field Marketing Benchmark 2026" class="btn btn-ghost btn-arrow">Read the 2026 Field Marketing Benchmark</a>
+        <a href="/case-studies" class="btn btn-ghost btn-arrow">Our clients' success stories</a>
       </div>
     </div>
   </section>
@@ -1179,30 +1329,27 @@
             <span class="logo-mark"></span>
             Conferra
           </a>
-          <p>For the field marketer doing the work of ten.</p>
+          <p>Events, owned end-to-end. For marketers at growth-stage B2B companies.</p>
         </div>
         <div class="footer-col">
           <h4>Product</h4>
           <ul>
             <li><a href="#how-it-works">How it works</a></li>
-            <li><a href="#pilot">The pilot</a></li>
+            <li><a href="/owned-events">Owned events</a></li>
             <li><a href="#ooh">OOH plan</a></li>
+            <li><a href="#pilot">Pilot</a></li>
             <li><a href="#cmo">For CMOs</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Resources</h4>
+          <h4>Customers</h4>
           <ul>
-            <li><a href="mailto:bhagawat@conferra.ai?subject=Benchmark 2026">2026 Benchmark</a></li>
-            <li><a href="mailto:bhagawat@conferra.ai?subject=Newsletter signup">The Operator (newsletter)</a></li>
-            <li><a href="#">Case studies</a></li>
+            <li><a href="/case-studies">Case studies</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Company</h4>
           <ul>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Manifesto</a></li>
             <li><a href="mailto:bhagawat@conferra.ai">Contact</a></li>
           </ul>
         </div>
@@ -1215,8 +1362,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <div>© 2026 Conferra. <em>Field marketing, owned end-to-end.</em></div>
-        <div>Made for the field marketer doing the work of ten.</div>
+        <div>© 2026 Conferra. <em>Events, owned end-to-end.</em></div>
       </div>
     </div>
   </footer>

@@ -7,8 +7,8 @@ FROM nginx:alpine
 # Remove default nginx page
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copy site files
-COPY index.html /usr/share/nginx/html/index.html
+# Copy site files (all top-level .html pages)
+COPY index.html owned-events.html case-studies.html /usr/share/nginx/html/
 
 # Optional: copy any future assets (images, fonts, etc.)
 # COPY assets/ /usr/share/nginx/html/assets/

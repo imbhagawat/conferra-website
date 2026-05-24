@@ -236,6 +236,12 @@
       border: 1px solid var(--border-soft);
       border-radius: 8px;
       font-size: 0.86rem;
+      min-height: 44px;
+    }
+    .cal-event.ooh-row {
+      min-height: 88px;
+      background: linear-gradient(180deg, #FCFAF6 0%, #F4F9F1 100%);
+      border-color: #D8E5D3;
     }
     .cal-date {
       font-size: 0.72rem; font-weight: 600;
@@ -269,9 +275,7 @@
       max-width: var(--maxw);
       margin: 0 auto 36px;
       padding: 0 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
+      text-align: center;
     }
     .logos-eyebrow {
       font-size: 0.78rem;
@@ -279,11 +283,6 @@
       text-transform: uppercase;
       color: var(--ink-muted);
       font-weight: 600;
-    }
-    .logos-meta {
-      font-size: 0.88rem;
-      color: var(--ink-soft);
-      font-weight: 500;
     }
     .marquee {
       position: relative;
@@ -944,9 +943,14 @@
               <span class="cal-tag dinner">Dinner</span>
             </div>
             <div class="cal-event">
-              <span class="cal-date">OCT 18–21</span>
+              <span class="cal-date">OCT 18</span>
               <span class="cal-title">Money 20/20 · operator on-site</span>
               <span class="cal-tag conf">Conference</span>
+            </div>
+            <div class="cal-event ooh-row">
+              <span class="cal-date">OCT 18</span>
+              <span class="cal-title">Money 20/20 (Vegas) · 4 OOH placements</span>
+              <span class="cal-tag ooh">OOH</span>
             </div>
             <div class="cal-event">
               <span class="cal-date">NOV 6</span>
@@ -959,12 +963,12 @@
               <span class="cal-tag conf">Activation</span>
             </div>
             <div class="cal-event">
-              <span class="cal-date">NOV 17–20</span>
+              <span class="cal-date">NOV 17</span>
               <span class="cal-title">Microsoft Ignite · booth + dinner</span>
               <span class="cal-tag conf">Conference</span>
             </div>
-            <div class="cal-event">
-              <span class="cal-date">NOV 30–DEC 4</span>
+            <div class="cal-event ooh-row">
+              <span class="cal-date">NOV 30</span>
               <span class="cal-title">AWS re:Invent (Vegas) · 6 OOH placements</span>
               <span class="cal-tag ooh">OOH</span>
             </div>
@@ -985,7 +989,6 @@
   <section class="logos" aria-label="Clients we work with">
     <div class="logos-header">
       <span class="logos-eyebrow">The teams running events with Conferra</span>
-      <span class="logos-meta">16 and counting · 2026</span>
     </div>
     <div class="marquee">
       <div class="marquee-row row-1">
